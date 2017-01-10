@@ -7,7 +7,29 @@
 //
 
 
-class BankVault {
+protocol ProvideAccess {
+    func allowEntryWithPassword(_ password : [Int]) -> Bool
+}
+
+class BankVault : ProvideAccess {
+    internal func allowEntryWithPassword(_ password: [Int]) -> Bool {
+        if password.isEmpty {
+            return false
+        }
+        
+        if password.count > 10 {
+            return false
+        }
+        
+        for (index, digit) in password.enumerated() {
+            if (index % 2 == 0 && digit % 2 != 0) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
     
     let name: String
     let address: String
@@ -17,6 +39,7 @@ class BankVault {
         self.name = name
         self.address = address
     }
+    
     
 }
 
